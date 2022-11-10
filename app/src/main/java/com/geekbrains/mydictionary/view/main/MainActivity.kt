@@ -13,6 +13,7 @@ import com.geekbrains.mydictionary.presenter.Presenter
 import com.geekbrains.mydictionary.view.base.BaseActivity
 import com.geekbrains.mydictionary.view.base.View
 import com.geekbrains.mydictionary.view.main.adapter.MainAdapter
+import com.geekbrains.mydictionary.view.soud.Pronunciation
 
 class MainActivity : BaseActivity<AppState>() {
 
@@ -24,6 +25,9 @@ class MainActivity : BaseActivity<AppState>() {
             override fun onItemClick(data: DataModel) {
                 Toast.makeText(this@MainActivity, data.text,
                     Toast.LENGTH_SHORT).show()
+                data.meanings?.get(0)?.soundUrl?.let{
+                    Pronunciation(applicationContext).playUrl(it)
+                }
             }
         }
     override fun createPresenter(): Presenter<AppState, View> {

@@ -3,11 +3,12 @@ package com.geekbrains.mydictionary.view.main.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.mydictionary.R
 import com.geekbrains.mydictionary.model.data.DataModel
+import com.geekbrains.mydictionary.view.image.ImageLoader
+import kotlinx.android.synthetic.main.activity_main_recyclerview_item.view.*
 
 class MainAdapter(
     private var onListItemClickListener: OnListItemClickListener,
@@ -44,6 +45,9 @@ class MainAdapter(
                 itemView.findViewById<TextView>(R.id.description_textview_recycler_item).text =
                     data.meanings?.get(0)?.translation?.translation
                 itemView.setOnClickListener { openInNewWindow(data) }
+                data.meanings?.get(0)?.previewUrl?.let {url->
+                    ImageLoader().loadInto("https:$url", itemView.iv_picture)
+                }
             }
         }
     }
