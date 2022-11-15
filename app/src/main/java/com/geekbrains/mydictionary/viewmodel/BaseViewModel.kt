@@ -13,7 +13,7 @@ abstract class BaseViewModel<T: AppState> (
     protected val schedulerProvider: SchedulerProvider = SchedulerProvider()
 ) : ViewModel() {
 
-    open fun getData(word: String, isOnLine: Boolean): LiveData<T> = liveDataForViewToObserve
+    abstract fun getData(word: String, isOnLine: Boolean)
 
     override fun onCleared() {
         compositeDisposable.clear()
