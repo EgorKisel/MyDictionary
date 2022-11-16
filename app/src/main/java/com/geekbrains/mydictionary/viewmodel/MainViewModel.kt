@@ -2,17 +2,14 @@ package com.geekbrains.mydictionary.viewmodel
 
 import androidx.lifecycle.LiveData
 import com.geekbrains.mydictionary.model.data.AppState
-import com.geekbrains.mydictionary.utils.parseSearchResults
 import com.geekbrains.mydictionary.view.main.MainInteractor
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
-import javax.inject.Inject
 
-class MainViewModel @Inject constructor(
+class MainViewModel (
     private val interactor: MainInteractor
     ) : BaseViewModel<AppState>() {
 
-    private var appState: AppState? = null
 
     fun subscribe(): LiveData<AppState> {
         return liveDataForViewToObserve
@@ -35,8 +32,7 @@ class MainViewModel @Inject constructor(
         return object : DisposableObserver<AppState>() {
 
             override fun onNext(state: AppState) {
-                appState = parseSearchResults(state)
-                liveDataForViewToObserve.value = appState
+                liveDataForViewToObserve.value = state
             }
 
             override fun onError(e: Throwable) {

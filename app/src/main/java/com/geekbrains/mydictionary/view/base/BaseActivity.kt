@@ -8,11 +8,10 @@ import com.geekbrains.mydictionary.model.data.AppState
 import com.geekbrains.mydictionary.presenter.Interactor
 import com.geekbrains.mydictionary.utils.AlertDialogFragment
 import com.geekbrains.mydictionary.utils.isOnline
-import com.geekbrains.mydictionary.viewmodel.BaseViewModel
 
 abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity() {
 
-    abstract val model: BaseViewModel<T>
+//    abstract val model: BaseViewModel<T>
 
     protected var isNetworkAvailable: Boolean = false
 
