@@ -1,6 +1,5 @@
 package com.geekbrains.mydictionary.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.geekbrains.mydictionary.model.data.AppState
