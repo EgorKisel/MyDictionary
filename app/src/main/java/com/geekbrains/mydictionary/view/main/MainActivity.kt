@@ -17,7 +17,7 @@ import com.geekbrains.mydictionary.view.base.BaseActivity
 import com.geekbrains.mydictionary.view.main.adapter.MainAdapter
 import com.geekbrains.mydictionary.view.soud.Pronunciation
 import com.geekbrains.mydictionary.viewmodel.MainViewModel
-import dagger.android.AndroidInjection
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
@@ -41,9 +41,11 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
             override fun onItemClick(data: DataModel) {
-                Toast.makeText(this@MainActivity, data.text,
-                    Toast.LENGTH_SHORT).show()
-                data.meanings?.get(0)?.soundUrl?.let{
+                Toast.makeText(
+                    this@MainActivity, data.text,
+                    Toast.LENGTH_SHORT
+                ).show()
+                data.meanings?.get(0)?.soundUrl?.let {
                     Pronunciation(applicationContext).playUrl(it)
                 }
             }
@@ -62,22 +64,28 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        iniViewModule()
+        initViews()
+    }
 
-        model = viewModelFactory.create(MainViewModel::class.java)
-        model.subscribe().observe(this@MainActivity, Observer<AppState> {
-            renderData(it) })
-
-        model = viewModelFactory.create(MainViewModel::class.java)
-        model.subscribe().observe(this@MainActivity, Observer<AppState> { renderData(it) })
-
-        binding.searchFab.setOnClickListener(fabClickListener)
+    private fun initViews() {
+        binding.searchFab.setOnClickListener (fabClickListener)
         binding.mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
         binding.mainActivityRecyclerview.adapter = adapter
     }
+
+    private fun iniViewModule() {
+        if (binding.mainActivityRecyclerview.adapter != null) {
+            throw java.lang.IllegalStateException("The ViewModel should be initialised first")
+        }
+        val viewModel: MainViewModel by viewModel()
+        model = viewModel
+        model.subscribe().observe(this@MainActivity, Observer<AppState> {renderData(it)})
+    }
+
     override fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
@@ -89,7 +97,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                         getString(R.string.empty_server_response_on_success)
                     )
                 } else {
-                    adapter?.setData(data)
+                    adapter.setData(data)
                 }
             }
             is AppState.Loading -> {
@@ -109,6 +117,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
             }
         }
     }
+
     private fun showViewWorking() {
         binding.loadingFrameLayout.visibility = GONE
     }
