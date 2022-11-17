@@ -17,7 +17,6 @@ import com.geekbrains.mydictionary.view.base.BaseActivity
 import com.geekbrains.mydictionary.view.main.adapter.MainAdapter
 import com.geekbrains.mydictionary.view.soud.Pronunciation
 import com.geekbrains.mydictionary.viewmodel.MainViewModel
-import dagger.android.AndroidInjection
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import javax.inject.Inject
 
@@ -26,7 +25,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var model: MainViewModel
+    override lateinit var model: MainViewModel
 
     private lateinit var binding: ActivityMainBinding
 
@@ -68,9 +67,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         iniViewModule()
-
         initViews()
     }
 
@@ -100,7 +97,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                         getString(R.string.empty_server_response_on_success)
                     )
                 } else {
-                    adapter?.setData(data)
+                    adapter.setData(data)
                 }
             }
             is AppState.Loading -> {
