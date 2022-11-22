@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +11,7 @@ import com.geekbrains.mydictionary.R
 import com.geekbrains.mydictionary.databinding.ActivityMainBinding
 import com.geekbrains.mydictionary.model.data.AppState
 import com.geekbrains.mydictionary.model.data.DataModel
+import com.geekbrains.mydictionary.utils.convertMeaningsToString
 import com.geekbrains.mydictionary.utils.isOnline
 import com.geekbrains.mydictionary.view.base.BaseActivity
 import com.geekbrains.mydictionary.view.main.adapter.MainAdapter
@@ -41,10 +41,14 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
             override fun onItemClick(data: DataModel) {
-                Toast.makeText(
-                    this@MainActivity, data.text,
-                    Toast.LENGTH_SHORT
-                ).show()
+                startActivity(
+                    DescriptionActivity.getIntent(
+                        this@MainActivity,
+                        data.text!!,
+                        convertMeaningsToString(data.meanings!!),
+                        data.meanings[0].imageUrl
+                    )
+                )
                 data.meanings?.get(0)?.soundUrl?.let {
                     Pronunciation(applicationContext).playUrl(it)
                 }
