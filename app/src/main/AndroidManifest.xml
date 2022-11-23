@@ -32,6 +32,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity android:name=".view.main.DescriptionActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".view.history.HistoryActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

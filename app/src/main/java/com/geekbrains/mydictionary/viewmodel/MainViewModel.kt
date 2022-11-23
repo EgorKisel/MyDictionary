@@ -2,7 +2,7 @@ package com.geekbrains.mydictionary.viewmodel
 
 import androidx.lifecycle.LiveData
 import com.geekbrains.mydictionary.model.data.AppState
-import com.geekbrains.mydictionary.utils.parseSearchResults
+import com.geekbrains.mydictionary.utils.parseOnlineSearchResults
 import com.geekbrains.mydictionary.view.main.MainInteractor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ class MainViewModel (
 
     private suspend fun startInteractor(word: String, isOnline: Boolean) =
         withContext(Dispatchers.IO) {
-            _mutableLiveData.postValue(parseSearchResults(interactor.getData(word, isOnline)
+            _mutableLiveData.postValue(parseOnlineSearchResults(interactor.getData(word, isOnline)
                 )
             )
         }
