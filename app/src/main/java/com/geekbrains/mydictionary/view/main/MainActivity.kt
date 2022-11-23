@@ -1,6 +1,9 @@
 package com.geekbrains.mydictionary.view.main
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -14,6 +17,7 @@ import com.geekbrains.mydictionary.model.data.DataModel
 import com.geekbrains.mydictionary.utils.convertMeaningsToString
 import com.geekbrains.mydictionary.utils.isOnline
 import com.geekbrains.mydictionary.view.base.BaseActivity
+import com.geekbrains.mydictionary.view.history.HistoryActivity
 import com.geekbrains.mydictionary.view.main.adapter.MainAdapter
 import com.geekbrains.mydictionary.view.soud.Pronunciation
 import com.geekbrains.mydictionary.viewmodel.MainViewModel
@@ -90,38 +94,6 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         model.subscribe().observe(this@MainActivity, Observer<AppState> {renderData(it)})
     }
 
-    override fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                showViewWorking()
-                val data = appState.data
-                if (data.isNullOrEmpty()) {
-                    showAlertDialog(
-                        getString(R.string.dialog_tittle_sorry),
-                        getString(R.string.empty_server_response_on_success)
-                    )
-                } else {
-                    adapter.setData(data)
-                }
-            }
-            is AppState.Loading -> {
-                showViewLoading()
-                if (appState.progress != null) {
-                    binding.progressBarHorizontal.visibility = VISIBLE
-                    binding.progressBarRound.visibility = GONE
-                    binding.progressBarHorizontal.progress = appState.progress
-                } else {
-                    binding.progressBarHorizontal.visibility = GONE
-                    binding.progressBarRound.visibility = VISIBLE
-                }
-            }
-            is AppState.Error -> {
-                showViewWorking()
-                showAlertDialog(getString(R.string.error_textview_stub), appState.error.message)
-            }
-        }
-    }
-
     private fun showViewWorking() {
         binding.loadingFrameLayout.visibility = GONE
     }
@@ -133,5 +105,24 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     companion object {
         private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG =
             "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
+    }
+
+    override fun setDataToAdapter(data: List<DataModel>) {
+        adapter.setData(data)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.history_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

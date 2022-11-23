@@ -8,6 +8,7 @@ class ImageLoader() {
     fun loadInto(url: String, container: ImageView) {
         Glide.with(container.context)
             .load(url)
+            .circleCrop()
             .into(container)
     }
 }
