@@ -1,20 +1,18 @@
-plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-android-extensions'
-    id 'kotlin-kapt'
-}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
-    namespace 'com.geekbrains.mydictionary'
-    compileSdk 33
+    namespace Config.application_id
+    compileSdkVersion Config.compile_sdk
 
     defaultConfig {
-        applicationId "com.geekbrains.mydictionary"
-        minSdk 23
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        applicationId Config.application_id
+        minSdkVersion Config.min_sdk
+        targetSdkVersion Config.target_sdk
+        versionCode Releases.version_code
+        versionName Releases.version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,8 +24,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility Config.java_version
+        targetCompatibility Config.java_version
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -40,25 +38,42 @@ android {
 
 dependencies {
 
+    //Modules
+//    implementation project(Modules.core)
+//    implementation project(Modules.model)
+//    implementation project(Modules.repository)
+//    implementation project(Modules.utils)
+//    implementation project(Modules.historyScreen)
+
     //Kotlin
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.7.20'
-    implementation 'androidx.core:core-ktx:1.9.0'
-// Rx-Java
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
-// Retrofit 2
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
-    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
-// Test
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    implementation(Kotlin.stdlib)
+    implementation(Kotlin.core)
+    implementation(Kotlin.coroutines_core)
+    implementation(Kotlin.coroutines_android)
+
+    // Rx-Java
+    implementation (RxJava.rxandroid)
+    implementation (RxJava.rxjava)
+
+    // Retrofit 2
+    implementation (Retrofit.retrofit)
+    implementation (Retrofit.converter_gson)
+    implementation (Retrofit.logging_interceptor)
+    implementation (Retrofit.rxjava_adapter)
+    implementation (Retrofit.adapter_coroutines)
+
+    //Design
+    implementation(Design.appcompat)
+    implementation(Design.material)
+
+    //Layout
+    implementation (Layout.constraintlayout)
+    implementation (Layout.swiperefreshlayout)
+
+    // Test
+    testImplementation (TestImpl.junit)
+    androidTestImplementation (TestImpl.ext_junit)
+    androidTestImplementation (TestImpl.espresso)
 
     //Glide
     apply plugin: 'kotlin-kapt'
@@ -71,24 +86,17 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.44.1'
     kapt 'com.google.dagger:dagger-compiler:2.44.1'
 
-    implementation 'androidx.room:room-ktx:2.4.3'
-
     //Koin
-    implementation "io.insert-koin:koin-core:3.2.2"
-    implementation "io.insert-koin:koin-android:3.3.0"
-    implementation "io.insert-koin:koin-android-compat:3.3.0"
-
-    testImplementation "io.insert-koin:koin-test:3.1.2"
-
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
-
-    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+    implementation(Koin.koin_android)
+    implementation (Koin.koin_android_compat)
+    implementation(Koin.koin_test)
+    implementation(Koin.koin_core)
 
     //Picasso
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation (Picasso.picasso)
+
     //Room
-    implementation 'androidx.room:room-runtime:2.3.0'
-    kapt 'androidx.room:room-compiler:2.3.0'
-    implementation 'androidx.room:room-ktx:2.3.0'
+    implementation(Room.runtime)
+    kapt (Room.compiler)
+    implementation (Room.room_ktx)
 }
