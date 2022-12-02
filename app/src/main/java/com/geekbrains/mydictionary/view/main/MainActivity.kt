@@ -90,6 +90,8 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
             throw java.lang.IllegalStateException("The ViewModel should be initialised first")
         }
         val viewModel: MainViewModel by viewModel()
+        //val viewModel: MainViewModel by currentScope.inject() //так не работает
+
         model = viewModel
         model.subscribe().observe(this@MainActivity, Observer<AppState> {renderData(it)})
     }

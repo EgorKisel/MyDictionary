@@ -12,6 +12,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
 
     private lateinit var binding: ActivityHistoryBinding
     override lateinit var model: HistoryViewModel
+
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +37,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
         val viewModel: HistoryViewModel by viewModel()
+        //val viewModel: HistoryViewModel by currentScope.inject() // так не работает, не знаю почему
         model = viewModel
         model.subscribe().observe(this@HistoryActivity, Observer<AppState> {
             renderData(it) })

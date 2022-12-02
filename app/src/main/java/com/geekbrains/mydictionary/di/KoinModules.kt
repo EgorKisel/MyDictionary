@@ -9,10 +9,13 @@ import com.geekbrains.mydictionary.model.repository.RepositoryImplementation
 import com.geekbrains.mydictionary.model.repository.RepositoryImplementationLocal
 import com.geekbrains.mydictionary.model.repository.RepositoryLocal
 import com.geekbrains.mydictionary.room.HistoryDataBase
+import com.geekbrains.mydictionary.view.history.HistoryActivity
 import com.geekbrains.mydictionary.view.history.HistoryInteractor
 import com.geekbrains.mydictionary.view.history.HistoryViewModel
+import com.geekbrains.mydictionary.view.main.MainActivity
 import com.geekbrains.mydictionary.view.main.MainInteractor
 import com.geekbrains.mydictionary.viewmodel.MainViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.core.scope.get
 import org.koin.dsl.module
@@ -32,11 +35,21 @@ val application = module {
 }
 
 val mainScreen = module {
+    //не работает
+//    scope (named<MainActivity>()) {
+//        viewModel {MainViewModel (get())}
+//        scoped { MainInteractor (get(), get())}
+//    }
     factory { MainViewModel(get()) }
     factory { MainInteractor(get(), get()) }
 }
 
 val historyScreen = module {
+    //не работает
+//    scope (named<HistoryActivity>()) {
+//        viewModel {HistoryViewModel(get())}
+//        scoped {HistoryInteractor(get(), get())}
+//    }
     factory { HistoryViewModel(get()) }
     factory { HistoryInteractor(get(), get()) }
 }
