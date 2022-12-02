@@ -10,17 +10,20 @@ import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.mydictionary.R
 import com.geekbrains.mydictionary.databinding.ActivityMainBinding
 import com.geekbrains.mydictionary.model.data.AppState
 import com.geekbrains.mydictionary.model.data.DataModel
 import com.geekbrains.mydictionary.utils.convertMeaningsToString
 import com.geekbrains.mydictionary.utils.isOnline
+import com.geekbrains.mydictionary.utils.viewById
 import com.geekbrains.mydictionary.view.base.BaseActivity
 import com.geekbrains.mydictionary.view.history.HistoryActivity
 import com.geekbrains.mydictionary.view.main.adapter.MainAdapter
 import com.geekbrains.mydictionary.view.soud.Pronunciation
 import com.geekbrains.mydictionary.viewmodel.MainViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import javax.inject.Inject
 
@@ -34,6 +37,9 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     private lateinit var binding: ActivityMainBinding
 
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
+
+    private val mainActivityRecyclerview by viewById<RecyclerView>(R.id.main_activity_recyclerview)
+    private val searchFAB by viewById<FloatingActionButton>(R.id.search_fab)
 
     private val fabClickListener: View.OnClickListener =
         View.OnClickListener {
@@ -80,9 +86,9 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     }
 
     private fun initViews() {
-        binding.searchFab.setOnClickListener (fabClickListener)
-        binding.mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
-        binding.mainActivityRecyclerview.adapter = adapter
+        searchFAB.setOnClickListener(fabClickListener)
+        mainActivityRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
+        mainActivityRecyclerview.adapter = adapter
     }
 
     private fun iniViewModule() {
