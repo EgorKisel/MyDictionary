@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import com.geekbrains.mydictionary.R
 import com.geekbrains.mydictionary.databinding.LoadingLayoutBinding
 import com.geekbrains.mydictionary.model.data.AppState
-import com.geekbrains.mydictionary.model.data.DataModel
+import com.geekbrains.mydictionary.model.userdata.DataModel
 import com.geekbrains.mydictionary.presenter.Interactor
 import com.geekbrains.mydictionary.utils.AlertDialogFragment
 import com.geekbrains.mydictionary.utils.OnlineLiveData

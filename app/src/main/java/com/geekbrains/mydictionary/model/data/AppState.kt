@@ -1,5 +1,7 @@
 package com.geekbrains.mydictionary.model.data
 
+import com.geekbrains.mydictionary.model.userdata.DataModel
+
 sealed class AppState {
 
     data class Success(val data: List<DataModel>?) : AppState()

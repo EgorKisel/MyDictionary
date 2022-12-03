@@ -6,10 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.mydictionary.R
 import com.geekbrains.mydictionary.databinding.ActivityHistoryBinding
 import com.geekbrains.mydictionary.model.data.AppState
-import com.geekbrains.mydictionary.model.data.DataModel
+import com.geekbrains.mydictionary.model.userdata.DataModel
 import com.geekbrains.mydictionary.utils.viewById
 import com.geekbrains.mydictionary.view.base.BaseActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {

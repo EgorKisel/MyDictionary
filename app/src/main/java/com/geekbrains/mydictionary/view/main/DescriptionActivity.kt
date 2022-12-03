@@ -18,7 +18,6 @@ import com.geekbrains.mydictionary.R
 import com.geekbrains.mydictionary.databinding.ActivityDescriptionBinding
 import com.geekbrains.mydictionary.utils.AlertDialogFragment
 import com.geekbrains.mydictionary.utils.OnlineLiveData
-import com.geekbrains.mydictionary.utils.isOnline
 
 class DescriptionActivity: AppCompatActivity() {
 

@@ -14,14 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.mydictionary.R
 import com.geekbrains.mydictionary.databinding.ActivityMainBinding
 import com.geekbrains.mydictionary.model.data.AppState
-import com.geekbrains.mydictionary.model.data.DataModel
+import com.geekbrains.mydictionary.model.userdata.DataModel
 import com.geekbrains.mydictionary.utils.convertMeaningsToString
-import com.geekbrains.mydictionary.utils.isOnline
 import com.geekbrains.mydictionary.utils.viewById
 import com.geekbrains.mydictionary.view.base.BaseActivity
 import com.geekbrains.mydictionary.view.history.HistoryActivity
 import com.geekbrains.mydictionary.view.main.adapter.MainAdapter
-import com.geekbrains.mydictionary.view.soud.Pronunciation
 import com.geekbrains.mydictionary.viewmodel.MainViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -54,14 +52,11 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                 startActivity(
                     DescriptionActivity.getIntent(
                         this@MainActivity,
-                        data.text!!,
-                        convertMeaningsToString(data.meanings!!),
+                        data.text,
+                        convertMeaningsToString(data.meanings),
                         data.meanings[0].imageUrl
                     )
                 )
-                data.meanings?.get(0)?.soundUrl?.let {
-                    Pronunciation(applicationContext).playUrl(it)
-                }
             }
         }
 

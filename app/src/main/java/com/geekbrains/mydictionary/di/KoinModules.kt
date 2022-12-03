@@ -1,23 +1,18 @@
 package com.geekbrains.mydictionary.di
 
 import androidx.room.Room
-import com.geekbrains.mydictionary.model.data.DataModel
 import com.geekbrains.mydictionary.model.datasource.RetrofitImplementation
 import com.geekbrains.mydictionary.model.datasource.RoomDataBaseImplementation
+import com.geekbrains.mydictionary.model.dto.SearchResultDto
 import com.geekbrains.mydictionary.model.repository.Repository
 import com.geekbrains.mydictionary.model.repository.RepositoryImplementation
 import com.geekbrains.mydictionary.model.repository.RepositoryImplementationLocal
 import com.geekbrains.mydictionary.model.repository.RepositoryLocal
 import com.geekbrains.mydictionary.room.HistoryDataBase
-import com.geekbrains.mydictionary.view.history.HistoryActivity
 import com.geekbrains.mydictionary.view.history.HistoryInteractor
 import com.geekbrains.mydictionary.view.history.HistoryViewModel
-import com.geekbrains.mydictionary.view.main.MainActivity
 import com.geekbrains.mydictionary.view.main.MainInteractor
 import com.geekbrains.mydictionary.viewmodel.MainViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.qualifier.named
-import org.koin.core.scope.get
 import org.koin.dsl.module
 
 val application = module {
@@ -26,10 +21,10 @@ val application = module {
 
     single { get<HistoryDataBase>().historyDao() }
 
-    single<Repository<List<DataModel>>> {
+    single<Repository<List<SearchResultDto>>> {
         RepositoryImplementation(RetrofitImplementation())
     }
-    single<RepositoryLocal<List<DataModel>>> {
+    single<RepositoryLocal<List<SearchResultDto>>> {
         RepositoryImplementationLocal(RoomDataBaseImplementation(get()))
     }
 }
