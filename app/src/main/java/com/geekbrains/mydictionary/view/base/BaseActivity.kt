@@ -1,15 +1,18 @@
 package com.geekbrains.mydictionary.view.base
 
 import android.os.Bundle
-import android.view.View
 import android.os.PersistableBundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.geekbrains.mydictionary.R
 import com.geekbrains.mydictionary.databinding.LoadingLayoutBinding
 import com.geekbrains.mydictionary.model.data.AppState
 import com.geekbrains.mydictionary.model.data.DataModel
 import com.geekbrains.mydictionary.presenter.Interactor
 import com.geekbrains.mydictionary.utils.AlertDialogFragment
+import com.geekbrains.mydictionary.utils.OnlineLiveData
 import com.geekbrains.mydictionary.utils.isOnline
 import com.geekbrains.mydictionary.viewmodel.BaseViewModel
 
@@ -18,11 +21,26 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
     private lateinit var binding: LoadingLayoutBinding
     abstract val model: BaseViewModel<T>
 
-    protected var isNetworkAvailable: Boolean = false
+    protected var isNetworkAvailable: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        isNetworkAvailable = isOnline(applicationContext)
+        subscribeToNetworkChange()
+    }
+
+    private fun subscribeToNetworkChange() {
+        OnlineLiveData(this).observe(
+            this@BaseActivity, Observer<Boolean> {
+                isNetworkAvailable = it
+                if (!isNetworkAvailable) {
+                    Toast.makeText(
+                        this@BaseActivity,
+                        R.string.dialog_message_device_is_offline,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        )
     }
 
     override fun onResume() {
@@ -62,8 +80,10 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
             }
             is AppState.Error -> {
                 showViewWorking()
-                showAlertDialog(getString(R.string.error_textview_stub),
-                    appState.error.message)
+                showAlertDialog(
+                    getString(R.string.error_textview_stub),
+                    appState.error.message
+                )
             }
         }
     }
@@ -71,6 +91,7 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
     private fun showViewWorking() {
         binding.loadingFrameLayout.visibility = View.GONE
     }
+
     private fun showViewLoading() {
         binding.loadingFrameLayout.visibility = View.VISIBLE
     }
@@ -85,7 +106,8 @@ abstract class BaseActivity<T : AppState, I : Interactor<T>> : AppCompatActivity
     }
 
     protected fun showAlertDialog(title: String?, message: String?) {
-        AlertDialogFragment.newInstance(title, message).show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
+        AlertDialogFragment.newInstance(title, message)
+            .show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
     }
 
     private fun isDialogNull(): Boolean {
